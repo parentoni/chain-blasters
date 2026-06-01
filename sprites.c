@@ -3,7 +3,7 @@
 
 ALLEGRO_BITMAP *BITMAP_REGISTER[MAX_SPRITES]; 
 
-void intialize_sprites(char* files[], int file_count) {
+void initialize_sprites(char* files[], int file_count) {
 	if (file_count > MAX_SPRITES) {
 		perror("Amount of files loaded bigger than MAX_SPRITES");
 		exit(1);

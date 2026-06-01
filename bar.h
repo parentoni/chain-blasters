@@ -13,5 +13,5 @@
 #define BAR_HEIGHT 40
 #define BAR_INTERNAL_H_PADDING 5
 
-void render_bar(game_state* gs, int bar_sprite_index, ALLEGRO_FONT* f);
+void render_bar(game_state* gs, int bar_sprite_index, solid_state* s, ALLEGRO_FONT* f);
 #endif

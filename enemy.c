@@ -145,12 +145,14 @@ int update_state_enemies(hero* h, game_state* gs) {
 		}
 
 
+		float d = vec2_dist(&(h->pos), &(enemies[i]->pos));
 		if ((rand()/(float)RAND_MAX) <= (BULLET_SPAWN_CHANCE)) {
-			create_bullet(h, &enemies[i]->pos, gs);
+			if (d > BULLET_MIN_DISTANCE) {
+				create_bullet(h, &enemies[i]->pos, gs);
+			} 
 		}
 
 		// check if enemy and hero bound overlap
-		float d = vec2_dist(&(h->pos), &(enemies[i]->pos));
 		if (d < HERO_BOUNDING_BOX_R + ENEMY_BOUNDING_BOX_R) {
 			lost = 1;
 		}

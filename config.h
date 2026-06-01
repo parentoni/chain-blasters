@@ -38,7 +38,7 @@
 #define ENEMY_BOUNDING_BOX_R 35
 #define ENEMY_W 70
 #define ENEMY_H 80
-#define POINTS_PER_ENEMY 1
+#define POINTS_PER_ENEMY 2
 #define ENEMY_STARTING_SPEED 200 // 
 #define ENEMY_SPEED_PER_LEVEL 10
 
@@ -48,6 +48,7 @@
 #define BULLET_SPEED_PER_LEVEL 30
 #define BULLET_RADIUS 10
 #define BULLET_SPAWN_CHANCE 0.001 // 1 in 100, rand() % 100 < 1;
+#define BULLET_MIN_DISTANCE 300
 
 // waves
 #define MAX_CONCURRENT_WAVES 5 
@@ -56,19 +57,26 @@
 
 // General game definitions
 #define POINTS_PER_SECOND 1 
-#define TIME_TO_TERMINATOR 10 //seconds
+#define TIME_TO_TERMINATOR 15 //seconds
 
 typedef struct {
 	int points;
 	int attack_points; // gain points with points, but it's capped to 30, each attack costs 10;
 	int level;
 	int tick_count;
+	int current_fps;
 } game_state;
 
+typedef struct {
+	int high_score;
+} solid_state;
 
 void initialize_game_state(game_state* gs);
 void update_points_game_state(game_state* gs, int points);
 vec2 random_out_screen();
+
+solid_state load_solid_state();
+void save_solid_state(solid_state* a);
 
 int min(int a, int b);
 int max(int  a, int b);

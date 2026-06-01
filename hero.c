@@ -29,8 +29,8 @@ void render_hero(hero* h, int hero_bitmap_index) {
 	al_draw_scaled_bitmap(get_bitmap_by_index(hero_bitmap_index), 0, 0, HERO_ORIGINAL_W, HERO_ORIGINAL_H, h->pos.x - HERO_W/2.0, h->pos.y - HERO_H/2.0, HERO_W, HERO_H, 0);
 
 	//debug
-	//al_draw_filled_circle(h->pos.x, h->pos.y, 3, al_map_rgb(255,0,0));
-	//al_draw_circle(h->pos.x, h->pos.y, HERO_BOUNDING_BOX_R, al_map_rgb(255,0, 0), 3);
+	//al_draw_filled_circle(h->pos.x, h->pos.y, BULLET_MIN_DISTANCE, al_map_rgb(255,0,0));
+	//al_draw_circle(h->pos.x, h->pos.y, BULLET_MIN_DISTANCE, al_map_rgb(255,0, 0), 3);
 }
 
 void handle_key_down_hero(hero* h, game_state* gs, int keycode) {

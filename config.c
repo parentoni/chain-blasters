@@ -25,6 +25,7 @@ void initialize_game_state(game_state* gs) {
 	gs->attack_points = 10;
 	gs->level = 0;
 	gs->tick_count = 0;
+	gs->current_fps = FPS;
 }
 
 void update_points_game_state(game_state* gs, int points) {
@@ -51,4 +52,35 @@ vec2 random_out_screen() {
 	}
 
 	return r;
+}
+
+solid_state load_solid_state() {
+	FILE *fptr;	
+	fptr = fopen("./static/solid_state.chain", "rb");	
+
+	if (fptr == NULL) {
+		// initialize file with solid state
+		solid_state a;
+		a.high_score = 0;
+
+		fptr =  fopen("./static/solid_state.chain", "wb");
+		fwrite(&a, sizeof(solid_state), 1, fptr);	
+
+		fclose(fptr);
+		return a;
+	}
+
+	solid_state a;
+ 	fread(&a, sizeof(solid_state), 1, fptr);
+ 	fclose(fptr);
+ 	return a;
+}
+
+void save_solid_state(solid_state* a) {
+	FILE *fptr;	
+
+	fptr = fopen("./static/solid_state.chain", "wb");	
+	fwrite(a, sizeof(solid_state), 1, fptr);	
+
+	fclose(fptr);
 }

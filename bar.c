@@ -18,7 +18,7 @@ int len_number(int n) {
 	return floor(log10((float)n) + 1);
 }
 
-void render_bar(game_state* gs, int bar_sprite_index, ALLEGRO_FONT* f) {
+void render_bar(game_state* gs, int bar_sprite_index, solid_state* s, ALLEGRO_FONT* f) {
 	al_draw_bitmap(get_bitmap_by_index(bar_sprite_index), 0, 0, 0);
 	int complete_levels = (int) gs->attack_points/ATTACK_POINTS_COST; 
 
@@ -62,9 +62,30 @@ void render_bar(game_state* gs, int bar_sprite_index, ALLEGRO_FONT* f) {
 		t /= 10;
 	}
 
+	int high_points_len = 9;
+	t = s->high_score;
+
+	char high_points[22] = "High score: ";
+	char high_points_n_txt[high_points_len + 1];  
+	high_points_n_txt[high_points_len] = '\0';
+
+	for (int i=0;i<high_points_len;i++) {
+		high_points_n_txt[high_points_len - i - 1] = '0' + t % 10;
+		t /= 10;
+	}
+
  	strcat(points, points_n_txt);
  	strcat(wave, wave_n_txt);
+ 	strcat(high_points, high_points_n_txt);
 
+ 	// way better
+ 	char fps_text[10];	
+ 	sprintf(fps_text, "FPS: %d", gs->current_fps);
+
+
+ 	// f is the font
 	al_draw_text(f, al_map_rgb(240, 240, 240), 50, BAR_U_PADDING, 0, points);
+	al_draw_text(f, al_map_rgb(240, 240, 240), 1500, BAR_U_PADDING, 0, high_points);
 	al_draw_text(f, al_map_rgb(240, 240, 240), 50, BAR_U_PADDING + 2*32, 0, wave);
+	al_draw_text(f, al_map_rgb(240, 240, 240), 50, SCREEN_H - 32, 0, fps_text);
 }

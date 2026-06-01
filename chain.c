@@ -110,7 +110,7 @@ int main(int argc, char **argv){
 	//inicializa globais
 	FONT_32 = al_load_font("./static/minecraft.ttf", 32, 1);   
 	char* sprites[] = {"./static/hero.png", "./static/enemy.png", "./static/experience_bar.png"};
-	intialize_sprites(sprites, 3);	
+	initialize_sprites(sprites, 3);	
 
 	hero h; game_state gs;
 
@@ -124,6 +124,12 @@ int main(int argc, char **argv){
 	//inicia o temporizador
 	al_start_timer(timer);
 	
+	// fps calc
+	double last_time = al_get_time();
+	int frame_count = 0;
+
+	solid_state saved_solid_state = load_solid_state();
+
 	int playing = 1;
 	while(playing) {
 		ALLEGRO_EVENT ev;
@@ -132,6 +138,16 @@ int main(int argc, char **argv){
 
 		//se o tipo de evento for um evento do temporizador, ou seja, se o tempo passou de t para t+1
 		if(ev.type == ALLEGRO_EVENT_TIMER) {
+			frame_count++;
+
+			double ctime = al_get_time();
+			if (ctime - last_time >= 1) {
+				gs.current_fps = frame_count;
+				frame_count = 0;
+				last_time = ctime;
+			}
+
+
 			//atualiza a tela (quando houver algo para mostrar)
 			al_flip_display();
 			gs.tick_count++;
@@ -150,10 +166,14 @@ int main(int argc, char **argv){
 			render_attacks();
 			render_hero(&h, 0);
 			render_bullets();
-			render_bar(&gs, 2, FONT_32);	
+			render_bar(&gs, 2, &saved_solid_state, FONT_32);	
 
 
 
+			// update solid state
+			if (gs.points > saved_solid_state.high_score) {
+				saved_solid_state.high_score = gs.points;
+			}
 			//pausa o jogo por 3 segundos se o jogador morrer
 			if(!playing)
 				al_rest(1);
@@ -193,6 +213,7 @@ int main(int argc, char **argv){
 	al_destroy_display(display);
 	al_destroy_event_queue(event_queue);
    
+	save_solid_state(&saved_solid_state);
  
 	return 0;
 }
