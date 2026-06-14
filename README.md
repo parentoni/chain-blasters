@@ -1,5 +1,4 @@
 # chain-blasters
-# chain-blasters
 
 
 build: cmake . -B build
